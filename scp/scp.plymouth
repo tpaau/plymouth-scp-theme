@@ -1,0 +1,9 @@
+[Plymouth Theme]
+Name=SCP
+Description=SCP Foundation logo Plymouth theme
+Comment=(C) 2026 tpaau <tpaau-17db@tutamail.com>
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/scp/images
+ScriptFile=/usr/share/plymouth/themes/scp/scp.script
