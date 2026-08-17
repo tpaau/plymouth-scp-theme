@@ -1,7 +1,12 @@
 width = Window.GetWidth();
 height = Window.GetHeight();
+logo_offset = 100;
 logo;
-# scp_foundation;
+spacing = 20;
+scp_foundation;
+secure;
+contain;
+protect;
 time = 0.0;
 
 
@@ -24,8 +29,21 @@ fun out_quadratic(t) {
 fun refresh_callback ()
 {
 	time++;
-	opacity = out_quadratic((time - 20) / 40);
+	opacity = out_quadratic((time - 20) / 20);
 	logo.sprite.SetOpacity(opacity);
+
+	opacity = out_quadratic((time - 35) / 15);
+	scp_foundation.sprite.SetOpacity(opacity);
+
+	target_opacity = 0.7;
+	opacity = out_quadratic(((time - 70) / 30) * target_opacity);
+	secure.sprite.SetOpacity(opacity);
+
+	opacity = out_quadratic(((time - 90) / 30) * target_opacity);
+	contain.sprite.SetOpacity(opacity);
+
+	opacity = out_quadratic(((time - 110) / 30) * target_opacity);
+	protect.sprite.SetOpacity(opacity);
 }
 Plymouth.SetRefreshFunction (refresh_callback);
 
@@ -38,19 +56,56 @@ fun init() {
     logo.image = logo.image.Scale(logo.image.GetWidth() * 0.25, logo.image.GetHeight() * 0.25);
     logo.sprite = Sprite(logo.image);
     logo.x = ((width / 2) - (logo.image.GetWidth() / 2));
-    logo.y = ((height / 2) - (logo.image.GetHeight() / 2));
+    logo.y = ((height / 2) - (logo.image.GetHeight() / 2) - logo_offset);
     logo.sprite.SetPosition(logo.x, logo.y, 1000);
     logo.sprite.SetOpacity(0);
 
-    # scp_foundation.text = Image.Text("SCP Foundation", 1, 1, 1, 0.8, "center");
-    # scp_foundation.sprite = Sprite(scp_foundation.text);
-    # scp_foundation.sprite.SetImage(scp_foundation.text);
-    # scp_foundation.x = ((width / 2) - (scp_foundation.text.GetWidth() / 2));
-    # scp_foundation.y = 200;
-    # scp_foundation.sprite.SetPosition(scp_foundation.x, scp_foundation.y, 1005);
-    # scp_foundation.sprite.SetOpacity(1);
+
+	scp_foundation.image = Image("scp_foundation.png");
+    scp_foundation.image = scp_foundation.image.Scale(scp_foundation.image.GetWidth() * 0.5, scp_foundation.image.GetHeight() * 0.5);
+	scp_foundation.sprite = Sprite(scp_foundation.image);
+	scp_foundation.x = ((width / 2) - (scp_foundation.image.GetWidth() / 2));
+	scp_foundation.y = (logo.y + logo.image.GetHeight() + spacing);
+	scp_foundation.sprite.SetPosition(scp_foundation.x, scp_foundation.y, 1000);
+	scp_foundation.sprite.SetOpacity(0);
+
+
+	y = (scp_foundation.y + scp_foundation.image.GetHeight());
+	secure.image = Image("secure.png");
+	secure.image = secure.image.Scale(secure.image.GetWidth() * 0.5, secure.image.GetHeight() * 0.5);
+	secure.sprite = Sprite(secure.image);
+	secure.y = y;
+
+	contain.image = Image("contain.png");
+	contain.image = contain.image.Scale(contain.image.GetWidth() * 0.5, contain.image.GetHeight() * 0.5);
+	contain.sprite = Sprite(contain.image);
+	contain.y = y;
+
+	protect.image = Image("protect.png");
+	protect.image = protect.image.Scale(protect.image.GetWidth() * 0.5, protect.image.GetHeight() * 0.5);
+	protect.sprite = Sprite(protect.image);
+	protect.y = y;
+
+	spacing = (spacing / 2);
+	total_width = (secure.image.GetWidth() + contain.image.GetWidth() + protect.image.GetWidth() + (2 * spacing));
+	secure.x = ((width - total_width) / 2);
+	contain.x = (secure.x + secure.image.GetWidth() + spacing);
+	protect.x = (contain.x + contain.image.GetWidth() + spacing);
+
+	secure.sprite.SetPosition(secure.x, secure.y, 1000);
+	secure.sprite.SetOpacity(0);
+	contain.sprite.SetPosition(contain.x, contain.y, 1000);
+	contain.sprite.SetOpacity(0);
+	protect.sprite.SetPosition(protect.x, protect.y, 1000);
+	protect.sprite.SetOpacity(0);
+
 
     if (Plymouth.GetMode() != "boot") {
+	    logo.sprite.SetOpacity(1);
+		scp_foundation.sprite.SetOpacity(1);
+		secure.sprite.SetOpacity(1);
+		contain.sprite.SetOpacity(1);
+		protect.sprite.SetOpacity(1);
     }
 }
 
