@@ -6,8 +6,12 @@ inner_ring;
 logo_center;
 arrow_image;
 arrow1;
+arrow1_base_angle = -Math.Pi / 2;
 arrow2;
+arrow2_base_angle = Math.Pi * 1/6;
 arrow3;
+arrow3_base_angle = Math.Pi * 5/6;
+arrow_radius = 55;
 spacing = 20;
 scp_foundation;
 motto_width;
@@ -39,96 +43,97 @@ fun polar2cartesian(radius, angle) {
 
 fun refresh_callback ()
 {
-	# Add an additional time before the animation starts.
-	# Should be always 0 outside of testing.
-	debug_animation_delay = 0;
-	# Animation speed, 1 is normal speed, 0.5 is half the regular speed and 2 is twice the regular speed.
-	debug_animation_speed = 1;
+	# Only play the animation on boot
+	if (Plymouth.GetMode() == "boot") {
+		# Add an additional time before the animation starts.
+		# Should be always 0 outside of testing.
+		debug_animation_delay = 0;
+		# Animation speed, 1 is normal speed, 0.5 is half the regular speed and 2 is twice the regular speed.
+		debug_animation_speed = 1;
 
-	actual_time = time;
-	time = (time * debug_animation_speed);
+		actual_time = time;
+		time = (time * debug_animation_speed);
 
-	logo_opacity_pre = 0.7;
+		logo_opacity_pre = 0.7;
 
-	inner_ring_opacity = (out_cubic((time - debug_animation_delay) / 20) * logo_opacity_pre);
+		inner_ring_opacity = (out_cubic((time - debug_animation_delay) / 20) * logo_opacity_pre);
 
-	t = ((time - 10 - debug_animation_delay) / 20);
-	rotation_max = (Math.Pi * 0.1);
-	radians = ((1 - out_cubic(t)) * rotation_max);
-	outer_ring.sprite.SetImage(outer_ring.image.Rotate(radians));
+		t = ((time - 10 - debug_animation_delay) / 20);
+		rotation_max = (Math.Pi * 0.1);
+		radians = ((1 - out_cubic(t)) * rotation_max);
+		outer_ring.sprite.SetImage(outer_ring.image.Rotate(radians));
 
-	outer_ring_opacity = (out_cubic(t) * logo_opacity_pre);
+		outer_ring_opacity = (out_cubic(t) * logo_opacity_pre);
 
-	t = ((time - 20 - debug_animation_delay) / 20);
-	cube_t = out_cubic(t);
-	radian_offset = (1.0 - cube_t) * (Math.Pi * -0.3);
+		t = ((time - 20 - debug_animation_delay) / 20);
+		cube_t = out_cubic(t);
+		radian_offset = (1.0 - cube_t) * (Math.Pi * -0.3);
 
-	t = ((time - 35 - debug_animation_delay) / 15);
-	radius = lerp(200, 55, out_cubic(t));
-	scale_factor = lerp(0.8, 1, out_cubic(t));
-	image_width = arrow_image.GetWidth() * scale_factor;
-	image_height = arrow_image.GetHeight() * scale_factor;
-	width_offset = (image_width / 2);
-	height_offset = (image_height / 2);
+		t = ((time - 35 - debug_animation_delay) / 15);
+		radius = lerp(200, arrow_radius, out_cubic(t));
+		scale_factor = lerp(0.8, 1, out_cubic(t));
+		image_width = arrow_image.GetWidth() * scale_factor;
+		image_height = arrow_image.GetHeight() * scale_factor;
+		width_offset = (image_width / 2);
+		height_offset = (image_height / 2);
 
-	coords = polar2cartesian(radius, -Math.Pi / 2 + radian_offset);
-	arrow1.x = coords.x + logo_center.x;
-	arrow1.y = coords.y + logo_center.y;
-	arrow1.SetPosition(arrow1.x - width_offset, arrow1.y - height_offset);
-	look_radians = (Math.ATan2(logo_center.y - arrow1.y, logo_center.x - arrow1.x) - Math.Pi / 2);
-	arrow1.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
-	arrow1.SetOpacity(cube_t);
+		coords = polar2cartesian(radius, arrow1_base_angle + radian_offset);
+		arrow1.x = coords.x + logo_center.x;
+		arrow1.y = coords.y + logo_center.y;
+		arrow1.SetPosition(arrow1.x - width_offset, arrow1.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow1.y, logo_center.x - arrow1.x) - Math.Pi / 2);
+		arrow1.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
+		arrow1.SetOpacity(cube_t);
 
-	coords = polar2cartesian(radius, Math.Pi * 1/6 + radian_offset);
-	arrow2.x = coords.x + logo_center.x;
-	arrow2.y = coords.y + logo_center.y;
-	arrow2.SetPosition(arrow2.x - width_offset, arrow2.y - height_offset);
-	look_radians = (Math.ATan2(logo_center.y - arrow2.y, logo_center.x - arrow2.x) - Math.Pi / 2);
-	arrow2.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
-	arrow2.SetOpacity(cube_t);
+		coords = polar2cartesian(radius, arrow2_base_angle + radian_offset);
+		arrow2.x = coords.x + logo_center.x;
+		arrow2.y = coords.y + logo_center.y;
+		arrow2.SetPosition(arrow2.x - width_offset, arrow2.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow2.y, logo_center.x - arrow2.x) - Math.Pi / 2);
+		arrow2.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
+		arrow2.SetOpacity(cube_t);
 
-	coords = polar2cartesian(radius, Math.Pi * 5/6 + radian_offset);
-	arrow3.x = coords.x + logo_center.x;
-	arrow3.y = coords.y + logo_center.y;
-	arrow3.SetPosition(arrow3.x - width_offset, arrow3.y - height_offset);
-	look_radians = (Math.ATan2(logo_center.y - arrow3.y, logo_center.x - arrow3.x) - Math.Pi / 2);
-	arrow3.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
-	arrow3.SetOpacity(cube_t);
+		coords = polar2cartesian(radius, arrow3_base_angle + radian_offset);
+		arrow3.x = coords.x + logo_center.x;
+		arrow3.y = coords.y + logo_center.y;
+		arrow3.SetPosition(arrow3.x - width_offset, arrow3.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow3.y, logo_center.x - arrow3.x) - Math.Pi / 2);
+		arrow3.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
+		arrow3.SetOpacity(cube_t);
 
+		outer_ring.sprite.SetOpacity(lerp(outer_ring_opacity, 1, out_cubic(t)));
+		inner_ring.sprite.SetOpacity(lerp(inner_ring_opacity, 1, out_cubic(t)));
 
-	outer_ring.sprite.SetOpacity(lerp(outer_ring_opacity, 1, out_cubic(t)));
-	inner_ring.sprite.SetOpacity(lerp(inner_ring_opacity, 1, out_cubic(t)));
+		opacity = out_cubic((time - 40 - debug_animation_delay) / 15);
+		scp_foundation.sprite.SetOpacity(opacity);
 
+		target_opacity = 0.7;
+		offset_max = 10;
 
-	opacity = out_cubic((time - 40 - debug_animation_delay) / 15);
-	scp_foundation.sprite.SetOpacity(opacity);
+		t = ((time - 65 - debug_animation_delay) / 15);
+		offset = ((1 - out_cubic(t)) * offset_max);
+		secure.x = ((width - motto_width) / 2  + offset);
+		secure.sprite.SetPosition(secure.x, secure.y);
+		opacity = (out_cubic(t) * target_opacity);
+		secure.sprite.SetOpacity(opacity);
 
-	target_opacity = 0.7;
-	offset_max = 10;
+		t = ((time - 80 - debug_animation_delay) / 15);
+		offset = ((1 - out_cubic(t)) * offset_max);
+		contain.x = (secure.x + secure.image.GetWidth() + spacing + offset);
+		contain.sprite.SetPosition(contain.x, contain.y);
+		opacity = (out_cubic(t) * target_opacity);
+		contain.sprite.SetOpacity(opacity);
 
-	t = ((time - 65 - debug_animation_delay) / 15);
-	offset = ((1 - out_cubic(t)) * offset_max);
-	secure.x = ((width - motto_width) / 2  + offset);
-	secure.sprite.SetPosition(secure.x, secure.y);
-	opacity = (out_cubic(t) * target_opacity);
-	secure.sprite.SetOpacity(opacity);
+		t = ((time - 95 - debug_animation_delay) / 15);
+		offset = ((1 - out_cubic(t)) * offset_max);
+		protect.x = (contain.x + contain.image.GetWidth() + spacing + offset);
+		protect.sprite.SetPosition(protect.x, protect.y);
+		opacity = (out_cubic(t) * target_opacity);
+		protect.sprite.SetOpacity(opacity);
 
-	t = ((time - 80 - debug_animation_delay) / 15);
-	offset = ((1 - out_cubic(t)) * offset_max);
-	contain.x = (secure.x + secure.image.GetWidth() + spacing + offset);
-	contain.sprite.SetPosition(contain.x, contain.y);
-	opacity = (out_cubic(t) * target_opacity);
-	contain.sprite.SetOpacity(opacity);
-
-	t = ((time - 95 - debug_animation_delay) / 15);
-	offset = ((1 - out_cubic(t)) * offset_max);
-	protect.x = (contain.x + contain.image.GetWidth() + spacing + offset);
-	protect.sprite.SetPosition(protect.x, protect.y);
-	opacity = (out_cubic(t) * target_opacity);
-	protect.sprite.SetOpacity(opacity);
-
-	time = actual_time;
-	time++;
+		time = actual_time;
+		time++;
+	}
 }
 Plymouth.SetRefreshFunction (refresh_callback);
 
@@ -212,14 +217,39 @@ fun init() {
 	protect.sprite.SetOpacity(0);
 
 	if (Plymouth.GetMode() != "boot") {
-		arrow1.SetOpacity(1);
-		arrow2.SetOpacity(1);
-		arrow3.SetOpacity(2);
 		outer_ring.sprite.SetOpacity(1);
+		inner_ring.sprite.SetOpacity(1);
 		scp_foundation.sprite.SetOpacity(1);
 		secure.sprite.SetOpacity(1);
 		contain.sprite.SetOpacity(1);
 		protect.sprite.SetOpacity(1);
+
+		width_offset = (arrow_image.GetWidth() / 2);
+		height_offset = (arrow_image.GetHeight() / 2);
+
+		coords = polar2cartesian(arrow_radius, arrow1_base_angle);
+		arrow1.x = coords.x + logo_center.x;
+		arrow1.y = coords.y + logo_center.y;
+		arrow1.SetPosition(arrow1.x - width_offset, arrow1.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow1.y, logo_center.x - arrow1.x) - Math.Pi / 2);
+		arrow1.SetImage(arrow_image.Rotate(look_radians));
+		arrow1.SetOpacity(1);
+
+		coords = polar2cartesian(arrow_radius, arrow2_base_angle);
+		arrow2.x = coords.x + logo_center.x;
+		arrow2.y = coords.y + logo_center.y;
+		arrow2.SetPosition(arrow2.x - width_offset, arrow2.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow2.y, logo_center.x - arrow2.x) - Math.Pi / 2);
+		arrow2.SetImage(arrow_image.Rotate(look_radians));
+		arrow2.SetOpacity(1);
+
+		coords = polar2cartesian(arrow_radius, arrow3_base_angle);
+		arrow3.x = coords.x + logo_center.x;
+		arrow3.y = coords.y + logo_center.y;
+		arrow3.SetPosition(arrow3.x - width_offset, arrow3.y - height_offset);
+		look_radians = (Math.ATan2(logo_center.y - arrow3.y, logo_center.x - arrow3.x) - Math.Pi / 2);
+		arrow3.SetImage(arrow_image.Rotate(look_radians));
+		arrow3.SetOpacity(1);
 	}
 }
 
