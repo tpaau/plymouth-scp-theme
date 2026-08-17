@@ -4,6 +4,7 @@ logo_offset = 100;
 logo;
 spacing = 20;
 scp_foundation;
+total_width;
 secure;
 contain;
 protect;
@@ -19,7 +20,7 @@ fun clamp_01(t) {
 }
 
 
-fun out_quadratic(t) {
+fun out_cubic(t) {
 	t = clamp_01(t);
 	val = (1 - t);
 	return (1 - (val * val * val));
@@ -29,20 +30,34 @@ fun out_quadratic(t) {
 fun refresh_callback ()
 {
 	time++;
-	opacity = out_quadratic((time - 20) / 20);
+	opacity = out_cubic((time - 20) / 20);
 	logo.sprite.SetOpacity(opacity);
 
-	opacity = out_quadratic((time - 35) / 15);
+	opacity = out_cubic((time - 35) / 15);
 	scp_foundation.sprite.SetOpacity(opacity);
 
 	target_opacity = 0.7;
-	opacity = out_quadratic(((time - 70) / 30) * target_opacity);
+	offset_max = 10;
+
+	t = ((time - 70) / 15);
+	offset = ((1 - out_cubic(t)) * offset_max);
+	secure.x = ((width - total_width) / 2  + offset);
+	secure.sprite.SetPosition(secure.x, secure.y, 1000);
+	opacity = (out_cubic(t) * target_opacity);
 	secure.sprite.SetOpacity(opacity);
 
-	opacity = out_quadratic(((time - 90) / 30) * target_opacity);
+	t = ((time - 85) / 15);
+	offset = ((1 - out_cubic(t)) * offset_max);
+	contain.x = (secure.x + secure.image.GetWidth() + spacing + offset);
+	contain.sprite.SetPosition(contain.x, contain.y, 1000);
+	opacity = (out_cubic(t) * target_opacity);
 	contain.sprite.SetOpacity(opacity);
 
-	opacity = out_quadratic(((time - 110) / 30) * target_opacity);
+	t = ((time - 100) / 15);
+	offset = ((1 - out_cubic(t)) * offset_max);
+	protect.x = (contain.x + contain.image.GetWidth() + spacing + offset);
+	protect.sprite.SetPosition(protect.x, protect.y, 1000);
+	opacity = (out_cubic(t) * target_opacity);
 	protect.sprite.SetOpacity(opacity);
 }
 Plymouth.SetRefreshFunction (refresh_callback);
@@ -86,7 +101,6 @@ fun init() {
 	protect.sprite = Sprite(protect.image);
 	protect.y = y;
 
-	spacing = (spacing / 2);
 	total_width = (secure.image.GetWidth() + contain.image.GetWidth() + protect.image.GetWidth() + (2 * spacing));
 	secure.x = ((width - total_width) / 2);
 	contain.x = (secure.x + secure.image.GetWidth() + spacing);
