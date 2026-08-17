@@ -63,7 +63,7 @@ fun refresh_callback ()
 	cube_t = out_cubic(t);
 	radian_offset = (1.0 - cube_t) * (Math.Pi * -0.3);
 
-	t = ((time - 40 - debug_animation_delay) / 15);
+	t = ((time - 35 - debug_animation_delay) / 15);
 	radius = lerp(200, 55, out_cubic(t));
 	scale_factor = lerp(0.8, 1, out_cubic(t));
 	image_width = arrow_image.GetWidth() * scale_factor;
@@ -100,27 +100,27 @@ fun refresh_callback ()
 	inner_ring.sprite.SetOpacity(lerp(inner_ring_opacity, 1, out_cubic(t)));
 
 
-	opacity = out_cubic((time - 45 - debug_animation_delay) / 15);
+	opacity = out_cubic((time - 40 - debug_animation_delay) / 15);
 	scp_foundation.sprite.SetOpacity(opacity);
 
 	target_opacity = 0.7;
 	offset_max = 10;
 
-	t = ((time - 70 - debug_animation_delay) / 15);
+	t = ((time - 65 - debug_animation_delay) / 15);
 	offset = ((1 - out_cubic(t)) * offset_max);
 	secure.x = ((width - motto_width) / 2  + offset);
 	secure.sprite.SetPosition(secure.x, secure.y);
 	opacity = (out_cubic(t) * target_opacity);
 	secure.sprite.SetOpacity(opacity);
 
-	t = ((time - 85 - debug_animation_delay) / 15);
+	t = ((time - 80 - debug_animation_delay) / 15);
 	offset = ((1 - out_cubic(t)) * offset_max);
 	contain.x = (secure.x + secure.image.GetWidth() + spacing + offset);
 	contain.sprite.SetPosition(contain.x, contain.y);
 	opacity = (out_cubic(t) * target_opacity);
 	contain.sprite.SetOpacity(opacity);
 
-	t = ((time - 100 - debug_animation_delay) / 15);
+	t = ((time - 95 - debug_animation_delay) / 15);
 	offset = ((1 - out_cubic(t)) * offset_max);
 	protect.x = (contain.x + contain.image.GetWidth() + spacing + offset);
 	protect.sprite.SetPosition(protect.x, protect.y);
