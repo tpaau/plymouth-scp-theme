@@ -14,6 +14,7 @@ You should have Plymouth installed and hooked into your initrd.
 3. Run `plymouth-set-default-theme -R scp` as root.
 
 ## Testing
+Run this in a TTY as root:
 ```bash
 plymouthd --debug; plymouth --show-splash; sleep 10; plymouth quit
 ```
