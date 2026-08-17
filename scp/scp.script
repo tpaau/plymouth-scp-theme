@@ -23,21 +23,21 @@ time = 0.0;
 
 fun out_cubic(t) {
 	t = Math.Clamp(t, 0, 1);
-	val = (1 - t);
-	return (1 - (val * val * val));
+	val = 1 - t;
+	return 1 - (val * val * val);
 }
 
 
 fun lerp(a, b, t) {
 	t = Math.Clamp(t, 0, 1);
-	return (a * (1 - t) + b * t);
+	return a * (1 - t) + b * t;
 }
 
 
 fun polar2cartesian(radius, angle) {
 	value;
-	value.x = (radius * Math.Cos(angle));
-	value.y = (radius * Math.Sin(angle));
+	value.x = radius * Math.Cos(angle);
+	value.y = radius * Math.Sin(angle);
 	return value;
 }
 
@@ -52,36 +52,36 @@ fun refresh_callback ()
 		debug_animation_speed = 1;
 
 		actual_time = time;
-		time = (time * debug_animation_speed);
+		time = time * debug_animation_speed;
 
 		logo_opacity_pre = 0.7;
 
-		inner_ring_opacity = (out_cubic((time - debug_animation_delay) / 20) * logo_opacity_pre);
+		inner_ring_opacity = out_cubic((time - debug_animation_delay) / 20) * logo_opacity_pre;
 
-		t = ((time - 10 - debug_animation_delay) / 20);
-		rotation_max = (Math.Pi * 0.1);
-		radians = ((1 - out_cubic(t)) * rotation_max);
+		t = (time - 10 - debug_animation_delay) / 20;
+		rotation_max = Math.Pi * 0.1;
+		radians = (1 - out_cubic(t)) * rotation_max;
 		outer_ring.sprite.SetImage(outer_ring.image.Rotate(radians));
 
-		outer_ring_opacity = (out_cubic(t) * logo_opacity_pre);
+		outer_ring_opacity = out_cubic(t) * logo_opacity_pre;
 
-		t = ((time - 20 - debug_animation_delay) / 20);
+		t = (time - 20 - debug_animation_delay) / 20;
 		cube_t = out_cubic(t);
 		radian_offset = (1.0 - cube_t) * (Math.Pi * -0.3);
 
-		t = ((time - 35 - debug_animation_delay) / 15);
+		t = (time - 35 - debug_animation_delay) / 15;
 		radius = lerp(200, arrow_radius, out_cubic(t));
 		scale_factor = lerp(0.8, 1, out_cubic(t));
 		image_width = arrow_image.GetWidth() * scale_factor;
 		image_height = arrow_image.GetHeight() * scale_factor;
-		width_offset = (image_width / 2);
-		height_offset = (image_height / 2);
+		width_offset = image_width / 2;
+		height_offset = image_height / 2;
 
 		coords = polar2cartesian(radius, arrow1_base_angle + radian_offset);
 		arrow1.x = coords.x + logo_center.x;
 		arrow1.y = coords.y + logo_center.y;
 		arrow1.SetPosition(arrow1.x - width_offset, arrow1.y - height_offset);
-		look_radians = (Math.ATan2(logo_center.y - arrow1.y, logo_center.x - arrow1.x) - Math.Pi / 2);
+		look_radians = Math.ATan2(logo_center.y - arrow1.y, logo_center.x - arrow1.x) - Math.Pi / 2;
 		arrow1.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
 		arrow1.SetOpacity(cube_t);
 
@@ -89,7 +89,7 @@ fun refresh_callback ()
 		arrow2.x = coords.x + logo_center.x;
 		arrow2.y = coords.y + logo_center.y;
 		arrow2.SetPosition(arrow2.x - width_offset, arrow2.y - height_offset);
-		look_radians = (Math.ATan2(logo_center.y - arrow2.y, logo_center.x - arrow2.x) - Math.Pi / 2);
+		look_radians = Math.ATan2(logo_center.y - arrow2.y, logo_center.x - arrow2.x) - Math.Pi / 2;
 		arrow2.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
 		arrow2.SetOpacity(cube_t);
 
@@ -97,7 +97,7 @@ fun refresh_callback ()
 		arrow3.x = coords.x + logo_center.x;
 		arrow3.y = coords.y + logo_center.y;
 		arrow3.SetPosition(arrow3.x - width_offset, arrow3.y - height_offset);
-		look_radians = (Math.ATan2(logo_center.y - arrow3.y, logo_center.x - arrow3.x) - Math.Pi / 2);
+		look_radians = Math.ATan2(logo_center.y - arrow3.y, logo_center.x - arrow3.x) - Math.Pi / 2;
 		arrow3.SetImage(arrow_image.Rotate(look_radians).Scale(image_width, image_height));
 		arrow3.SetOpacity(cube_t);
 
@@ -110,25 +110,25 @@ fun refresh_callback ()
 		target_opacity = 0.7;
 		offset_max = 10;
 
-		t = ((time - 65 - debug_animation_delay) / 15);
-		offset = ((1 - out_cubic(t)) * offset_max);
-		secure.x = ((width - motto_width) / 2  + offset);
+		t = (time - 65 - debug_animation_delay) / 15;
+		offset = (1 - out_cubic(t)) * offset_max;
+		secure.x = (width - motto_width) / 2  + offset;
 		secure.sprite.SetPosition(secure.x, secure.y);
-		opacity = (out_cubic(t) * target_opacity);
+		opacity = out_cubic(t) * target_opacity;
 		secure.sprite.SetOpacity(opacity);
 
-		t = ((time - 80 - debug_animation_delay) / 15);
-		offset = ((1 - out_cubic(t)) * offset_max);
-		contain.x = (secure.x + secure.image.GetWidth() + spacing + offset);
+		t = (time - 80 - debug_animation_delay) / 15;
+		offset = (1 - out_cubic(t)) * offset_max;
+		contain.x = secure.x + secure.image.GetWidth() + spacing + offset;
 		contain.sprite.SetPosition(contain.x, contain.y);
-		opacity = (out_cubic(t) * target_opacity);
+		opacity = out_cubic(t) * target_opacity;
 		contain.sprite.SetOpacity(opacity);
 
-		t = ((time - 95 - debug_animation_delay) / 15);
-		offset = ((1 - out_cubic(t)) * offset_max);
-		protect.x = (contain.x + contain.image.GetWidth() + spacing + offset);
+		t = (time - 95 - debug_animation_delay) / 15;
+		offset = (1 - out_cubic(t)) * offset_max;
+		protect.x = contain.x + contain.image.GetWidth() + spacing + offset;
 		protect.sprite.SetPosition(protect.x, protect.y);
-		opacity = (out_cubic(t) * target_opacity);
+		opacity = out_cubic(t) * target_opacity;
 		protect.sprite.SetOpacity(opacity);
 
 		time = actual_time;
@@ -148,21 +148,10 @@ fun init() {
 	arrow_image = Image("arrow.png");
 
 	arrow1 = Sprite(arrow_image);
-	arrow1.x = 300;
-	arrow1.y = 100;
-	arrow1.SetPosition(arrow1.x, arrow1.y);
 	arrow1.SetOpacity(0);
-
 	arrow2 = Sprite(arrow_image);
-	arrow2.x = 400;
-	arrow2.y = 100;
-	arrow2.SetPosition(arrow2.x, arrow2.y);
 	arrow2.SetOpacity(0);
-
 	arrow3 = Sprite(arrow_image);
-	arrow3.x = 500;
-	arrow3.y = 100;
-	arrow3.SetPosition(arrow3.x, arrow3.y);
 	arrow3.SetOpacity(0);
 
 	scp_foundation.image = Image("scp_foundation.png");
@@ -177,25 +166,25 @@ fun init() {
 	protect.image = Image("protect.png");
 	protect.sprite = Sprite(protect.image);
 
-	content_height = (outer_ring.image.GetHeight() + spacing + scp_foundation.image.GetHeight() + secure.image.GetHeight());
+	content_height = outer_ring.image.GetHeight() + spacing + scp_foundation.image.GetHeight() + secure.image.GetHeight();
 
-	outer_ring.x = ((width / 2) - (outer_ring.image.GetWidth() / 2));
-	outer_ring.y = ((height - content_height) / 2);
+	outer_ring.x = width / 2 - outer_ring.image.GetWidth() / 2;
+	outer_ring.y = (height - content_height) / 2;
 	outer_ring.sprite.SetPosition(outer_ring.x, outer_ring.y);
 	outer_ring.sprite.SetOpacity(0);
 
-	logo_center.x = (outer_ring.x + outer_ring.image.GetWidth() / 2);
-	logo_center.y = (outer_ring.y + outer_ring.image.GetHeight() / 2);
+	logo_center.x = outer_ring.x + outer_ring.image.GetWidth() / 2;
+	logo_center.y = outer_ring.y + outer_ring.image.GetHeight() / 2;
 
 	inner_ring.image = Image("inner_ring.png");
 	inner_ring.sprite = Sprite(inner_ring.image);
-	inner_ring.x = ((width / 2) - (inner_ring.image.GetWidth() / 2));
-	inner_ring.y = (logo_center.y - inner_ring.image.GetHeight() / 2);
+	inner_ring.x = (width / 2) - (inner_ring.image.GetWidth() / 2);
+	inner_ring.y = logo_center.y - inner_ring.image.GetHeight() / 2;
 	inner_ring.sprite.SetPosition(inner_ring.x, inner_ring.y);
 	inner_ring.sprite.SetOpacity(0);
 
-	scp_foundation.x = ((width / 2) - (scp_foundation.image.GetWidth() / 2));
-	scp_foundation.y = (outer_ring.y + outer_ring.image.GetHeight());
+	scp_foundation.x = width / 2 - scp_foundation.image.GetWidth() / 2;
+	scp_foundation.y = outer_ring.y + outer_ring.image.GetHeight();
 	scp_foundation.sprite.SetPosition(scp_foundation.x, scp_foundation.y);
 	scp_foundation.sprite.SetOpacity(0);
 
@@ -204,10 +193,10 @@ fun init() {
 	contain.y = y;
 	protect.y = y;
 
-	motto_width = (secure.image.GetWidth() + contain.image.GetWidth() + protect.image.GetWidth() + (2 * spacing));
-	secure.x = ((width - motto_width) / 2);
-	contain.x = (secure.x + secure.image.GetWidth() + spacing);
-	protect.x = (contain.x + contain.image.GetWidth() + spacing);
+	motto_width = secure.image.GetWidth() + contain.image.GetWidth() + protect.image.GetWidth() + 2 * spacing;
+	secure.x = (width - motto_width) / 2;
+	contain.x = secure.x + secure.image.GetWidth() + spacing;
+	protect.x = contain.x + contain.image.GetWidth() + spacing;
 
 	secure.sprite.SetPosition(secure.x, secure.y);
 	secure.sprite.SetOpacity(0);
@@ -224,8 +213,8 @@ fun init() {
 		contain.sprite.SetOpacity(1);
 		protect.sprite.SetOpacity(1);
 
-		width_offset = (arrow_image.GetWidth() / 2);
-		height_offset = (arrow_image.GetHeight() / 2);
+		width_offset = arrow_image.GetWidth() / 2;
+		height_offset = arrow_image.GetHeight() / 2;
 
 		coords = polar2cartesian(arrow_radius, arrow1_base_angle);
 		arrow1.x = coords.x + logo_center.x;
