@@ -65,7 +65,7 @@ fun refresh_callback ()
 	height_offset = (arrow_image.GetHeight() / 2);
 
 	t = ((time - 40 - debug_animation_delay) / 15);
-	radius = lerp(200, 60, out_cubic(t));
+	radius = lerp(200, 55, out_cubic(t));
 
 	coords = polar2cartesian(radius, -Math.Pi / 2 + radian_offset);
 	arrow1.x = coords.x + logo_center.x;
@@ -134,44 +134,38 @@ fun init() {
 	Window.SetBackgroundBottomColor(0, 0, 0);
 
 	outer_ring.image = Image("outer_ring.png");
-	outer_ring.image = outer_ring.image.Scale(outer_ring.image.GetWidth() * 0.25, outer_ring.image.GetHeight() * 0.25);
 	outer_ring.sprite = Sprite(outer_ring.image);
 
 	arrow_image = Image("arrow.png");
-	arrow_image = arrow_image.Scale(arrow_image.GetWidth() * 0.25, arrow_image.GetHeight() * 0.25);
 
 	arrow1 = Sprite(arrow_image);
 	arrow1.x = 300;
 	arrow1.y = 100;
 	arrow1.SetPosition(arrow1.x, arrow1.y);
-	# arrow1.SetOpacity(0);
+	arrow1.SetOpacity(0);
 
 	arrow2 = Sprite(arrow_image);
 	arrow2.x = 400;
 	arrow2.y = 100;
 	arrow2.SetPosition(arrow2.x, arrow2.y);
-	# arrow2.SetOpacity(0);
+	arrow2.SetOpacity(0);
 
 	arrow3 = Sprite(arrow_image);
 	arrow3.x = 500;
 	arrow3.y = 100;
 	arrow3.SetPosition(arrow3.x, arrow3.y);
-	# arrow3.SetOpacity(0);
+	arrow3.SetOpacity(0);
 
 	scp_foundation.image = Image("scp_foundation.png");
-	scp_foundation.image = scp_foundation.image.Scale(scp_foundation.image.GetWidth() * 0.5, scp_foundation.image.GetHeight() * 0.5);
 	scp_foundation.sprite = Sprite(scp_foundation.image);
 
 	secure.image = Image("secure.png");
-	secure.image = secure.image.Scale(secure.image.GetWidth() * 0.5, secure.image.GetHeight() * 0.5);
 	secure.sprite = Sprite(secure.image);
 
 	contain.image = Image("contain.png");
-	contain.image = contain.image.Scale(contain.image.GetWidth() * 0.5, contain.image.GetHeight() * 0.5);
 	contain.sprite = Sprite(contain.image);
 
 	protect.image = Image("protect.png");
-	protect.image = protect.image.Scale(protect.image.GetWidth() * 0.5, protect.image.GetHeight() * 0.5);
 	protect.sprite = Sprite(protect.image);
 
 	content_height = (outer_ring.image.GetHeight() + spacing + scp_foundation.image.GetHeight() + secure.image.GetHeight());
@@ -185,7 +179,6 @@ fun init() {
 	logo_center.y = (outer_ring.y + outer_ring.image.GetHeight() / 2);
 
 	inner_ring.image = Image("inner_ring.png");
-	inner_ring.image = inner_ring.image.Scale(inner_ring.image.GetWidth() * 0.25, inner_ring.image.GetHeight() * 0.25);
 	inner_ring.sprite = Sprite(inner_ring.image);
 	inner_ring.x = ((width / 2) - (inner_ring.image.GetWidth() / 2));
 	inner_ring.y = (logo_center.y - inner_ring.image.GetHeight() / 2);
@@ -215,6 +208,9 @@ fun init() {
 	protect.sprite.SetOpacity(0);
 
 	if (Plymouth.GetMode() != "boot") {
+		arrow1.SetOpacity(1);
+		arrow2.SetOpacity(1);
+		arrow3.SetOpacity(2);
 		outer_ring.sprite.SetOpacity(1);
 		scp_foundation.sprite.SetOpacity(1);
 		secure.sprite.SetOpacity(1);
