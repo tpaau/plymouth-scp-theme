@@ -2,6 +2,8 @@
 
 Boot splash plymouth theme that displays an animated SCP Foundation logo.
 
+![showcase](https://github.com/tpaau/plymouth-scp-theme/blob/main/images/showcase.gif)
+
 ## Installing (works for most distros)
 You should have Plymouth installed and hooked into your initrd.
 
