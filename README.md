@@ -1,10 +1,11 @@
 # SCP Foundation Logo Plymouth Theme
 
-Boot splash plymouth theme that displays an animated SCP Foundation logo.
+Plymouth theme that displays an animated SCP Foundation logo along with the Foundation's motto.
 
 ![showcase](https://github.com/tpaau/plymouth-scp-theme/blob/main/images/showcase.gif)
 
-<sup>Do note that the animation here tears a bit because it's recorded in a VM with no GPU acceleration.</sup>
+> [!NOTE]
+> The animation here tears a bit because it's recorded in a VM with no GPU acceleration.
 
 ## Installing (works for most distros)
 You should have Plymouth installed and hooked into your initrd.
